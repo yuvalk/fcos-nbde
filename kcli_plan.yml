@@ -5,17 +5,17 @@ nbde-tang:
   disks:
     - size: 10
       interface: scsi
+  wait: true
+  finishfiles:
+  - nbde-47-1.ign
+  files:
+  - deploy_tang.sh
+  - nbde-47.ign.template
+  scripts:
+  - deploy_tang.sh
 
-nbde-rhcos47:
+nbde-47-1:
   image: rhcos47
-  numcpus: 4
-  memory: 4096
-  disks:
-    - size: 10
-      interface: scsi
-
-nbde-rhcos46:
-  image: rhcos46
   numcpus: 4
   memory: 4096
   disks:

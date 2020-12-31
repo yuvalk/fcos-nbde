@@ -1,0 +1,31 @@
+{
+  "ignition": {
+    "version": "3.2.0"
+  },
+  "storage": {
+    "luks": [
+      {
+        "name": "myluksdev",
+        "device": "/dev/disk/by-partlabel/root",
+          "clevis": {
+            "tang": [
+              {
+                "url": "http://${tang_ip}",
+                "thumbprint": "${tang_thumbprint}"
+              }
+            ]
+          },
+        "label": "root",
+        "wipeVolume": true
+      }
+    ],
+    "filesystems": [
+      {
+        "device": "/dev/mapper/myluksdev",
+        "format": "xfs",
+        "wipeFilesystem": true,
+        "label": "root"
+      }
+    ]
+  }
+}
