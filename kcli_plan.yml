@@ -1,23 +1,48 @@
-nbde-tang:
+{% for tangid in range(0, tang_servers_number-1) %}
+nbde-tang-{{ tangid }}:
   image: centos8
   numcpus: 2
   memory: 512
+  sharedkey: true
+  reversedns: true
+  disks:
+    - size: 10
+      interface: scsi
+  scripts:
+  - deploy_tang.sh
+{% endfor %}
+
+nbde-tang-{{ tang_servers_number-1 }}:
+  image: centos8
+  numcpus: 2
+  memory: 512
+  sharedkey: true
+  reversedns: true
   disks:
     - size: 10
       interface: scsi
   wait: true
   finishfiles:
-  - nbde-47-1.ign
+{% for nbdeid in range(0, nbde_clients_number) %}
+    - nbde-47-{{ nbdeid }}.ign
+{% endfor %}
   files:
   - deploy_tang.sh
+  - export_tangs_keys.sh
   - nbde-47.ign.template
   scripts:
   - deploy_tang.sh
+  - export_tangs_keys.sh
 
-nbde-47-1:
+
+{% for nbdeid in range(0, nbde_clients_number) %}
+nbde-47-{{ nbdeid }}:
   image: rhcos47
   numcpus: 4
   memory: 4096
+  sharedkey: true
+  reversedns: true
   disks:
     - size: 10
       interface: scsi
+{% endfor %}

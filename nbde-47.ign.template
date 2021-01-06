@@ -9,10 +9,16 @@
         "device": "/dev/disk/by-partlabel/root",
           "clevis": {
             "tang": [
+{% for tangid in range(0, tang_servers_number) %}
               {
-                "url": "http://${tang_ip}",
-                "thumbprint": "${tang_thumbprint}"
+                "url": "http://${tang{{ tangid }}_ip}",
+                "thumbprint": "${tang{{ tangid }}_thumbprint}"
+{% if tangid == tang_servers_number-1 %}
               }
+{% else %}
+              },
+{% endif %}
+{% endfor %}
             ]
           },
         "label": "root",
